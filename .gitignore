@@ -1,6 +1,7 @@
-
 *.pyc
 
 reviewersorter.py
 
 *.swo
+
+*.swp
