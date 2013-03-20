@@ -1,0 +1,17 @@
+{% extends ../base.html %}
+
+{% block scriptjqready %}
+
+{% end %}
+
+{% block title %}
+Fridgeraider - Log In
+{% end %}
+
+{% block content %}
+    {% if current_user %}
+    Hi {{current_user.displayName}}
+    {% end %}
+    <br>
+    Site of your home page!
+{% end %}
