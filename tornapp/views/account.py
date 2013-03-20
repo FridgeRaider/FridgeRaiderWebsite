@@ -18,12 +18,12 @@ class LoginHandler(BaseHandler):
     self.render("account/login.html", next=self.get_argument("next","/"), message=self.get_argument("error","") )
 
   def post(self):
-    nick = self.get_argument("email", "")
+    email = self.get_argument("email", "")
     password = self.get_argument("password", "")
     db = utils.connect_db('Two_Pick_Too_Drunk')
             
     p_hash =sha256_crypt.encrypt(password)
-    u = User.search(nick_l=nick.lower()).first()
+    u = User.search(email=email.lower()).first()
     print u
     if u:
         self.set_current_user(u)
