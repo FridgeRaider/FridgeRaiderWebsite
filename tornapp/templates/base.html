@@ -38,31 +38,33 @@
 <div class="container">
 <div class="span-8" style="float:right">
     {% if current_user %}
-        Hi {{current_user.nick}}! <a href="/account/logout">Logout</a>
+        Hi {{current_user.displayName}}! <a href="/account/logout">Logout</a>
     {% else %}
         {% block logged_in %}
-            <a href="/account/login"> Login/Sign Up</a>
+            <a href="/account/login">Login/Sign Up</a>
         {% end %}
 
     {% end %}
  </div>
 
 <div class="nav span-24 last">
-<div><a href="/"><img src="{{ static_url("images/drunklogo.png") }}"/></a></div>
+<div style="text-align:center"><a href="/"><h1 style="Align:center">Banner!!!!</h1></a></div>
 <div id='cssmenu'  style="background-color: black;">
         <ul>
         <li class='active '><a href='/'><span>Home</span></a></li>
+        {% if current_user %}
         <li class='has-sub '><a href='/account/home'><span>My Account</span></a>
-            {% if current_user %}
+
             <ul>
-                <li><a href='/account/ratings'><span>Reviewed Beers</span></a></li>
-                <li><a href='/account/recommendations'><span>Top Beers and Bottom Beers</span></a></li>
-                <li><a href='/account/places'><span>Beers at Places</span></a></li>
-                <!-- <li><a href='#'><span>To Drink List</span></a></li> -->
+                <li><a href='/account/Ingrediants'><span>My Ingrediants</span></a></li>
+                <li><a href='/account/Recipes'><span>Favorite Recipies</span></a></li>
+                
             </ul>
-            {% end %}
+        {% else %}
+        <li class='has-sub '><a href='/account/login'><span>My Account</span></a>
+
+        {% end %}
         </li>
-        <li><a href='/search'><span>Search and Rate</span></a></li>
         </ul>
     </div>
 </div>

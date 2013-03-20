@@ -6,6 +6,7 @@ import utils
 import random 
 from datetime import datetime
 import json
+from ..models import User
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -23,8 +24,8 @@ class BaseHandler(tornado.web.RequestHandler):
             sc = self.get_secure_cookie('authed_user')
             if sc:
                 u_ = json.loads(self.get_secure_cookie('authed_user'))
-                nick = u_['user']
-                return User.search(nick=nick).first()
+                email = u_['user']
+                return User.search(email=email).first()
         return None
 
     def set_current_user(self, user):
@@ -33,7 +34,7 @@ class BaseHandler(tornado.web.RequestHandler):
     
         self.set_secure_cookie(
             'authed_user',
-            json.dumps({'user':user.nick}),
+            json.dumps({'user':user.email}),
             expires_days=7,
             )
 
