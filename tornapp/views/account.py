@@ -82,3 +82,9 @@ class Logout(BaseHandler):
         self.redirect("/")
 
 
+@route("/account/Ingrediants")
+class Ingrediants(BaseHandler):
+    def get(self):
+        self.render("account/ingrediants.html")
+
+
