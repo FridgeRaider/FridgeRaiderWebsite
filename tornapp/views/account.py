@@ -20,17 +20,15 @@ class LoginHandler(BaseHandler):
   def post(self):
     email = self.get_argument("email", "")
     password = self.get_argument("password", "")
-    db = utils.connect_db('Two_Pick_Too_Drunk')
+    db = utils.connect_db('FridgeRaider')
             
-    p_hash =sha256_crypt.encrypt(password)
     u = User.search(email=email.lower()).first()
-    print u
-    if u:
+    if sha256_crypt.verify(password,u.password):
         self.set_current_user(u)
         self.redirect("/account/home")
 
     else:
-        error_msg = tornado.escape.url_escape("Wrong information")
+        error_msg = tornado.escape.url_escape("Invalid Login")
         self.redirect("/account/login?error="+error_msg)
 
 
@@ -45,22 +43,25 @@ class RegisterHandler(LoginHandler):
     self.render(  "account/register.html", next=self.get_argument("next","/"), error=error)
 
   def post(self):
-    args = self.request.arguments    
-    db = utils.connect_db('Two_Pick_Too_Drunk')
+    args = self.request.arguments
+    print args
+    db = utils.connect_db('FridgeRaider')
     collection = db['User']
-    u = User.search(nick_l=args['username'][0].lower()).first()
-    print u
+    u = User.search(email=args['email'][0].lower()).first()
     if u:
-        error_msg = u"?error=" + tornado.escape.url_escape("Login name already taken")
+        error_msg = u"?error=" + tornado.escape.url_escape("Email already registered")
+        self.redirect(u"/account/register" + error_msg)
+        
+    elif args['password1'][0] != args['password2'][0]:
+        error_msg = u"?error=" + tornado.escape.url_escape("Passwords did not match")
         self.redirect(u"/account/register" + error_msg)
     else:
         user = User(
-                    nick = args['username'][0],
-                    nick_l = args['username'][0].lower(),
+                    displayName = args['Name'][0],
                     email = args['email'][0],
-                    password = sha256_crypt.encrypt(args['password'][0]),
-                    name = args['fName'][0].strip() + ' ' + args['lName'][0].strip()
-            )
+                    password = sha256_crypt.encrypt(args['password1'][0]),
+                    ingredients = []
+                   )
 
         user.save()
         self.set_current_user(user)
@@ -79,5 +80,11 @@ class Logout(BaseHandler):
     def get(self):
         self.clear_current_user()
         self.redirect("/")
+
+
+@route("/account/Ingrediants")
+class Ingrediants(BaseHandler):
+    def get(self):
+        self.render("account/ingrediants.html")
 
 
