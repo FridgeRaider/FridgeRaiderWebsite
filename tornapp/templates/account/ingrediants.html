@@ -1,0 +1,34 @@
+{% extends ../base.html %}
+
+{% block scriptjqready %}
+
+{% end %}
+
+{% block title %}
+Fridgeraider - Log In
+{% end %}
+
+{% block content %}
+{% if current_user %}
+<table>
+<tr><td>Product</td><td>amount</td><td>unit</td><td>Added</td><td>Expires</td></tr>
+{% for x in current_user.ingredients %}
+<tr><td>{{x['displayName']}}</td>
+    <td>{{x['quantity']}}</td>
+    <td>{{x['quantityUnit']}}</td>
+    <td>{{x['dateEntered']}}</td>
+    <td>{{x['expirationDate']}}</td></tr>
+
+    
+{% end %}
+</table>
+
+
+
+
+
+{% else %}
+You should go log in
+{% end %}
+
+{% end %}
