@@ -23,7 +23,6 @@ class LoginHandler(BaseHandler):
     db = utils.connect_db('FridgeRaider')
             
     u = User.search(email=email.lower()).first()
-    print u.password
     if sha256_crypt.verify(password,u.password):
         self.set_current_user(u)
         self.redirect("/account/home")
