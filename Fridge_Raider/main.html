@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/master.css" />
+		<link rel="stylesheet" href="css/responsive-tables.css">
+        <title>Welcome to FridgeRaider!</title>
+    </head>
+    		
+    <body id="stage" class="theme">
+        <div class="app">
+			<div class="top-row">
+				<input id="ingredient-entry" type="text" name="ingredients" placeholder="Add Ingredient...">
+				<input id="submit-button" type="submit" class="btn small" value="Enter" onclick="addIngredient();">
+			</div>
+			<div class="main-buttons">
+				<a ontouchend="app.scan()" class="btn small">Scan</a>
+				<a ontouchend="app.encode()" class="btn tiny">Encode</a>
+			</div>
+			<div id="table-header"><h2>Your Ingredients</h2></div>
+			<table id="ingredientTable" class="responsive">
+				<tr>
+					<th>Ingredient</th>
+					<th>Quantity</th>
+					<th>Expiration Date</th>
+				</tr>
+			</table>
+			<a href="availRecipes.html"><input id="build-button" type="submit" class="btn" value="Build Recipes"></a>
+        </div>
+    </body>
+	<script type="text/javascript" src="js/cordova-2.1.0.js"></script>
+	<script type="text/javascript" src="barcodescanner.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script src="js/responsive-tables.js"></script>
+	<script src="https://apis.google.com/js/client.js?onload=init"></script>
+	<script type="text/javascript">
+		app.initialize();
+		checkLogin();
+		createTable();
+	</script>
+</html>
