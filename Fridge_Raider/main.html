@@ -24,6 +24,7 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
         <link rel="stylesheet" type="text/css" href="css/master.css" />
 		<link rel="stylesheet" href="css/responsive-tables.css">
+		<link rel="icon" type="image/jpg" href="img/Viking_Refrigerator.jpg" />
         <title>Welcome to FridgeRaider!</title>
     </head>
     		
@@ -32,6 +33,7 @@
 			<div class="top-row">
 				<input id="ingredient-entry" type="text" name="ingredients" placeholder="Add Ingredient...">
 				<input id="submit-button" type="submit" class="btn small" value="Enter" onclick="addIngredient();">
+				<input type="submit" style="float:right;" class="btn small" value="Logout" onclick="logOut();">
 			</div>
 			<div class="main-buttons">
 				<a ontouchend="app.scan()" class="btn small">Scan</a>

@@ -23,10 +23,15 @@
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
         <link rel="stylesheet" type="text/css" href="css/master.css" />
+		<link rel="icon" type="image/jpg" href="img/Viking_Refrigerator.jpg" />
         <title>FridgeRaider-Recipes!</title>
     </head>
     <body id="stage" class="theme">
 		<div class="app">
+			<div style="float:right;">
+				<a href="main.html"><input type="submit" class="btn small" value="Back to Ingredients"></a>
+				<input type="submit" class="btn" value="Logout" onclick="logOut();">
+			</div>
 			<input id="availableRecipeSearch" type="text" name="recipes" placeholder="Available Recipes" onchange='createRecipeTable();' />
 		</div>
 		<div id="table-header">
@@ -52,6 +57,7 @@
 	<script type="text/javascript" src="js/AvailableRecipes.js"></script>
 	<script type="text/javascript">
 		app.initialize();
+		checkLogin();
 		document.addEventListener("deviceready", createRecipeTable, false); //for phonegap
 		$(document).ready(createRecipeTable); //for desktop
 	</script>

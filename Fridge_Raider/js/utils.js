@@ -69,6 +69,13 @@ function logInResponse(data) {
 	}
 }
 
+/* Log user out */
+function logOut() {
+	setCookie("validLogin", "false", 1);
+	setCookie("currUser", false, 1);
+	window.location.href = "index.html";
+}
+
 /* Called from register screen to attempt to register with information */
 function register(){
 	var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/users/";
@@ -135,7 +142,7 @@ function addIngredient() {
 	ROOT += ingredient.value + "/" + quantity + "/" + escape(getCookie("currUser"));
 	$.getJSON( ROOT, {} )
 	.done(function() {
-		window.location.reload(); //refresh the page to show results
+		setTimeout(function(){window.location.reload()}, 500); //refresh the page to show results
 	});
 }
 
@@ -149,7 +156,7 @@ function editIngredient(ingredientName, ingredientQuantity, expirationDate){
 	
 	$.getJSON( ROOT, {} )
 	.done(function() {
-		window.location.reload(); //refresh the page to show results
+		setTimeout(function(){window.location.reload()}, 500); //refresh the page to show results
 	});
 }
 
