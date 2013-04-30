@@ -122,14 +122,14 @@ function fillTable(data) {
 		var cell2 = newRow.insertCell(1);
 		var cell3 = newRow.insertCell(2);
 		var cell4 = newRow.insertCell(3);
-		var cell5 = newRow.insertCell(4);
 		cell1.innerHTML = item.ingredientName;
 		cell2.innerHTML = item.quantity;
+		cell2.setAttribute("onclick", "editQuantity(\"" + item.ingredientName + "\"," + item.quantity + ");");
+		cell2.setAttribute("class", "editCell");
 		cell3.innerHTML = item.expirationDate;
-		cell4.innerHTML = "<button onclick='editIngredient(" + 
-			"\"" + item.ingredientName + "\", " + 
-			"\"" + item.quantity + "\")' type='button'>Edit</button>";
-		cell5.innerHTML = "<button class='btn delete-btn' onclick='removeIngredient(" + 
+		cell3.setAttribute("onclick", "editExpiration(\"" + item.ingredientName + "\",\"" + item.expirationDate + "\");");
+		cell3.setAttribute("class", "editCell");
+		cell4.innerHTML = "<button class='btn delete-btn' onclick='removeIngredient(" + 
 			"\"" + item.ingredientName + "\");'>X</button>";
 	});
 }
@@ -147,13 +147,27 @@ function addIngredient() {
 }
 
 /* Change an ingredients quantity or expiration date */
-function editIngredient(ingredientName, ingredientQuantity, expirationDate){
+function editQuantity(ingredientName, ingredientQuantity){
 	var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/ingredients/update/";
 	ROOT += ingredientName + "/";
 	ROOT += encodeURIComponent(getCookie("currUser")) + "/";
 	var newQuantity = prompt("Quantity?", ingredientQuantity);
 	ROOT += newQuantity;
 	
+	$.getJSON( ROOT, {} )
+	.done(function() {
+		setTimeout(function(){window.location.reload()}, 500); //refresh the page to show results
+	});
+}
+
+/* User edits expiration date */
+function editExpiration(ingredientName, expirationDate){
+	var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/ingredients/updateExDate/"
+	ROOT += ingredientName + "/";
+	ROOT += encodeURIComponent(getCookie("currUser")) + "/";
+	var newExpiration = prompt("New expiration date?", expirationDate);
+	ROOT += newExpiration;
+
 	$.getJSON( ROOT, {} )
 	.done(function() {
 		setTimeout(function(){window.location.reload()}, 500); //refresh the page to show results
