@@ -32,16 +32,14 @@ function fillRecipeTable(data) {
 	var table = document.getElementById("recipeTableData");
 	table.innerHTML = "";
     $.each(data.results, function (i, item) {
-        var newRow = table.insertRow(-1);
+		var newRow = table.insertRow(-1);
         var cell1 = newRow.insertCell(0);
         var cell2 = newRow.insertCell(1);
-        var cell3 = newRow.insertCell(2);
         // A thumbnail image for the recipe
-        cell1.innerHTML = "<img src='" + item.thumbnail + "' alt=''>";
+        cell1.innerHTML = "<img src='" + item.thumbnail + "' alt='' width='100' height = '100'>";
         // A link to the recipe with the title as the text
-        cell2.innerHTML = "<a href='" + item.href + "'>" + item.title + "</a>";
-        // A list of ingredients in the recipe
-        cell3.innerHTML = item.ingredients;
+        cell2.innerHTML = "<a href='" + item.href + "' style='color:grey'>" + item.title + "</a>";
+		cell2.innerHTML += "<br />" + item.ingredients;
     });
 }
 
