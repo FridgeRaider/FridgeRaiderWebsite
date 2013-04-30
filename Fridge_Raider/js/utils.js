@@ -91,32 +91,43 @@ function register(){
 	});
 }
 
+/* Accept registration and redirect user to the login page */
 function registerResponse(data){
 	alert("Welcome to Fridge Raider! \n Your email and password can now be used to log in. Why don't you try it out?");
 	window.location.href = "index.html";
 }
 
-
+/* Create a table by using the username stored in a cookie */
 function createTable() {
 	var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/ingredient/";
 	ROOT += escape(getCookie("currUser"));
 	$.getJSON( ROOT, {} ).done( fillTable ); //execute fillTable when done getting JSON
 }
 
+/* Create a row for each item a user owns */
 function fillTable(data) {
 	$.each( data.ingredients, function( i, item ) {
-		//alert(item.ingredientName);
+		$('div.pinned').remove(); //deal with responsive tables
+
 		var table = document.getElementById("ingredientTable");
 		var newRow = table.insertRow(-1);
 		var cell1 = newRow.insertCell(0);
 		var cell2 = newRow.insertCell(1);
 		var cell3 = newRow.insertCell(2);
+		var cell4 = newRow.insertCell(3);
+		var cell5 = newRow.insertCell(4);
 		cell1.innerHTML = item.ingredientName;
 		cell2.innerHTML = item.quantity;
 		cell3.innerHTML = item.expirationDate;
+		cell4.innerHTML = "<button onclick='editIngredient(" + 
+			"\"" + item.ingredientName + "\", " + 
+			"\"" + item.quantity + "\")' type='button'>Edit</button>";
+		cell5.innerHTML = "<button class='btn delete-btn' onclick='removeIngredient(" + 
+			"\"" + item.ingredientName + "\");'>X</button>";
 	});
 }
 
+/* Accept an ingredient added and ask for quantity */
 function addIngredient() {
 	var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/ingredients/";
 	var ingredient = document.getElementById("ingredient-entry");
@@ -124,6 +135,33 @@ function addIngredient() {
 	ROOT += ingredient.value + "/" + quantity + "/" + escape(getCookie("currUser"));
 	$.getJSON( ROOT, {} )
 	.done(function() {
-		location.reload(); //refresh the page to show results
+		window.location.reload(); //refresh the page to show results
 	});
+}
+
+/* Change an ingredients quantity or expiration date */
+function editIngredient(ingredientName, ingredientQuantity, expirationDate){
+	var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/ingredients/update/";
+	ROOT += ingredientName + "/";
+	ROOT += encodeURIComponent(getCookie("currUser")) + "/";
+	var newQuantity = prompt("Quantity?", ingredientQuantity);
+	ROOT += newQuantity;
+	
+	$.getJSON( ROOT, {} )
+	.done(function() {
+		window.location.reload(); //refresh the page to show results
+	});
+}
+
+/* delete an ingredient */
+function removeIngredient(ingredientName){
+	if( confirm("Delete this ingredient?") ){
+		var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/ingredients/"
+		ROOT += ingredientName + "/";
+		ROOT += encodeURIComponent(getCookie("currUser"));
+		$.getJSON( ROOT, {} )
+		.done(function() {
+			window.location.reload(); //refresh the page to show results
+		});
+	}
 }
