@@ -3,24 +3,51 @@ function createRecipeTable() {
     This function will search for some recipes and fill the recipe table with the results.
     This function should be called on page load and when the query string has been changed.
     ***/
+	GetIngredients();
+}
+
+function SearchRecipes(data){
     // Get random ingredients
 	var searchbox = document.getElementById('availableRecipeSearch');
-    var search  = { ingredientList: GetIngredients(), query: searchbox.value};
+	var randomIngredients = GetRandomList(data.ingredients);
+    var search  = { ingredientList: randomIngredients, query: searchbox.value};
     // Search for Recipes
     GetRecipe(search);
 }
 
+function GetRandomList(fullList) {
+	var subList = [];
+	if(fullList){
+		if(fullList.length <= 3 ){
+			return fullList;
+		}
+		var randomNumbers = GetArrayOfRandomNumbers(0, fullList.length);
+		var sublistSize = randomNumbers.length; // Random number 3-Size of Full List
+		for(var i = 0; i < sublistSize; i++){
+			subList.push(fullList[randomNumbers[i]]);
+		}
+	}
+	return subList;
+}
+
+function GetArrayOfRandomNumbers(min, max)
+{
+	var rand_arr = [];
+	var arrayLength = Math.ceil((Math.random()*max) - 1);
+	if(arrayLength < 3) { arrayLength = 3; }
+	while(rand_arr.length < arrayLength){ //how many numbers
+		var randomnumber=Math.ceil((Math.random()*max) - 1); //ceiling on random numbers, subtract 1 so 0-9
+		if(rand_arr.indexOf(randomnumber) < 0){
+			rand_arr.push(randomnumber);
+		}
+	}
+	return rand_arr;
+}
+
 function GetIngredients() {
-    // Get 3 random ingredients
-    return [
-        {
-            ingredientName: "chicken"
-        }, {
-            ingredientName: "milk"
-        }, {
-            ingredientName: "eggs"
-        }
-    ];
+	var ROOT = "https://hungrynorse.appspot.com/_ah/api/hungrynorse/v1/ingredient/";
+	ROOT += escape(getCookie("currUser"));
+	$.getJSON( ROOT, {} ).done( SearchRecipes ); //execute fillTable when done getting JSON
 }
 
 function fillRecipeTable(data) {
@@ -36,7 +63,9 @@ function fillRecipeTable(data) {
         var cell1 = newRow.insertCell(0);
         var cell2 = newRow.insertCell(1);
         // A thumbnail image for the recipe
+		if(item.thumbnail != null && item.thumbnail != ''){
         cell1.innerHTML = "<img src='" + item.thumbnail + "' alt='' width='100' height = '100'>";
+		}
         // A link to the recipe with the title as the text
         cell2.innerHTML = "<a href='" + item.href + "' style='color:grey'>" + item.title + "</a>";
 		cell2.innerHTML += "<br />" + item.ingredients;
