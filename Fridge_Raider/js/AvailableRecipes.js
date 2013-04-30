@@ -1,5 +1,3 @@
-document.onload = createTable;
-
 function createRecipeTable() {
     /***
     This function will search for some recipes and fill the recipe table with the results.
@@ -32,8 +30,8 @@ function fillRecipeTable(data) {
     the ingredients in the recipe.
     ***/
     $.each(data.results, function (i, item) {
-        var table = document.getElementById("recipeTable").getElementsByTagName('tbody');
-        table.empty();
+        var table = document.getElementById("recipeTableData");
+		table.innerHTML = "";
         var newRow = table.insertRow(-1);
         var cell1 = newRow.insertCell(0);
         var cell2 = newRow.insertCell(1);
@@ -79,15 +77,20 @@ function FormURL(args) {
     return link;
 }
 
+var tempscript = null;
+
 function CallURL(args) {
-    /***
-	Makes an ajax get call to the url provided.
-	***/
-	//alert(args.url);
-    $.getJSON(args.url, { format: "jsonp" })
-    .done(fillRecipeTable);
+  if (tempscript) return; // a fetch is already in progress
+  tempscript = document.createElement("script");
+  tempscript.type = "text/javascript";
+  tempscript.id = "tempscript";
+  tempscript.src = args.url + "&format=json&callback=onFetchComplete&requestid=";
+  document.body.appendChild(tempscript);
+  // onFetchComplete invoked when finished
 }
 
-function ErrorFunction() {
-    alert("An error occured during the json call to the recipe api. Please contact and administrator.");
+function onFetchComplete(data) {
+  document.body.removeChild(tempscript);
+  tempscript = null;
+  fillRecipeTable(data);
 }
