@@ -3,6 +3,7 @@ function createRecipeTable() {
     This function will search for some recipes and fill the recipe table with the results.
     This function should be called on page load and when the query string has been changed.
     ***/
+	  $('#NoRecipes').show();
 	GetIngredients();
 }
 
@@ -56,6 +57,7 @@ function fillRecipeTable(data) {
     row of the table will have a thumbnail, a link to the recipe, and a list of
     the ingredients in the recipe.
     ***/
+	$('#NoRecipes').hide();
 	var table = document.getElementById("recipeTableData");
 	table.innerHTML = "";
     $.each(data.results, function (i, item) {
