@@ -14,7 +14,7 @@ function GetIngredients() {
     // Get 3 random ingredients
     return [
         {
-            ingredientName: "Flour"
+            ingredientName: "chicken"
         }, {
             ingredientName: "milk"
         }, {
@@ -29,9 +29,9 @@ function fillRecipeTable(data) {
     row of the table will have a thumbnail, a link to the recipe, and a list of
     the ingredients in the recipe.
     ***/
+	var table = document.getElementById("recipeTableData");
+	table.innerHTML = "";
     $.each(data.results, function (i, item) {
-        var table = document.getElementById("recipeTableData");
-		table.innerHTML = "";
         var newRow = table.insertRow(-1);
         var cell1 = newRow.insertCell(0);
         var cell2 = newRow.insertCell(1);
